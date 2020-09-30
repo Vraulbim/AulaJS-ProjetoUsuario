@@ -39,7 +39,7 @@ class UserController{
             this.getPhotos(content =>{               
             values.photo = content ;
             this.addLineUser(values);
-
+            console.log(values.photo);
             });
            
 
