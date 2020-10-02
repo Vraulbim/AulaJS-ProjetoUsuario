@@ -3,7 +3,6 @@ class UserController{
     constructor(formId, tableId){
         this.formEl = document.getElementById(formId);
         this.tableEl = document.getElementById(tableId);
-
         this.onSubmit();
     }
 
@@ -38,13 +37,20 @@ class UserController{
             if (!isValid){
                 return false;
             }
-            return new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
+            return new User(
+                user.name,
+                user.gender, 
+                user.birth, 
+                user.country, 
+                user.email, 
+                user.password, 
+                user.photo, 
+                user.admin);
 
             
     }
 
     onSubmit(){
-
         
         this.formEl.addEventListener('submit', event => {
    
@@ -53,13 +59,14 @@ class UserController{
             let btnSubmit = this.formEl.querySelector('[type=submit]');
             btnSubmit.disabled = true;
 
+            let values = this.getValues()
+            if(!values){return false}
+
             this.getPhotos().then((content)=>{values.photo = content ;
                 this.addLineUser(values);this.formEl.reset(); btnSubmit.disabled = false}, (error)=>{console.error(error)});
 
-            let values = this.getValues()
            
-
-           
+                      
         });
         
     }
@@ -94,6 +101,7 @@ class UserController{
 
     addLineUser(dataUser){
         let tr = document.createElement('tr');
+        tr.dataset.user = JSON.stringify(dataUser);
 
         tr.innerHTML = `
                 <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
@@ -107,6 +115,20 @@ class UserController{
             </td>
         `;
         this.tableEl.appendChild(tr);
+        this.updateCount();
     }
 
+    updateCount(){
+
+        let numberUser = 0;
+        let numberAdmin = 0;
+        [...this.tableEl.children].forEach(tr =>{
+           let user = JSON.parse(tr.dataset.user);
+            numberUser++;
+           if(user._admin === 'Sim'){numberAdmin++;}
+        });
+
+        document.getElementById('number-users').innerHTML = numberUser;
+        document.getElementById('number-admin').innerHTML = numberAdmin;
+    }
 }
