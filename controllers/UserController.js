@@ -133,6 +133,7 @@ class UserController{
             }
 
             this.showPanelUpdate();
+            
         })
 
         this.tableEl.appendChild(tr);
