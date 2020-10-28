@@ -118,8 +118,14 @@ class UserController{
             let values = this.getValues(this.formEl)
             if(!values){return false}
 
-            this.getPhotos(this.formEl).then((content)=>{values.photo = content ;
-                this.addLineUser(values);this.formEl.reset(); btnSubmit.disabled = false}, (error)=>{console.error(error)});
+            this.getPhotos(this.formEl).then((content)=>{
+                values.photo = content ;
+                this.addLineUser(values);
+                this.formEl.reset();
+                 btnSubmit.disabled = false;
+                }, (error)=>{
+                    console.error(error)
+                });
 
            
                       
@@ -155,6 +161,11 @@ class UserController{
     }
 
     insert(dataUser){
+
+        let users =[];
+
+        users.push(dataUser);
+
         sessionStorage.setItem("", "");
     }
        
